@@ -1,4 +1,4 @@
-# RandomMultivariateNormal
+# RandomMultivariateNormal [![Actions Status](https://github.com/monochromegane/random_multivariate_normal/workflows/Ruby/badge.svg)](https://github.com/monochromegane/random_multivariate_normal/actions)
 
 Random number generator from a multivariate normal distribution.
 
