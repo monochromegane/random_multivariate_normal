@@ -32,17 +32,21 @@ class RandomMultivariateNormal
     raise ArgumentError.new('Not symmetric matrix') unless mat.symmetric?
     raise ArgumentError.new('Not positive definite matrix') unless mat.eigen.d.each(:diagonal).all?{|d| d > 0.0}
 
-    l = Matrix.zero(mat.row_size)
+    l = array_as_zero_matrix(mat.row_size)
     mat.each_with_index do |e, row, col|
       lij = if row == col
-              Math.sqrt(mat[col, col] - col.times.inject(0){|sum, j| sum + (l[col, j] ** 2)})
+              Math.sqrt(mat[col, col] - col.times.inject(0){|sum, j| sum + (l[col][j] ** 2)})
             elsif row > col
-              (1.0/l[col, col]) * (mat[row, col] - col.times.inject(0){|sum, j| sum + l[row, j] * l[col, j]})
+              (1.0/l[col][col]) * (mat[row, col] - col.times.inject(0){|sum, j| sum + l[row][j] * l[col][j]})
             else
               0.0
             end
-      l[row, col] = lij
+      l[row][col] = lij
     end
-    l
+    Matrix[*l]
+  end
+
+  def array_as_zero_matrix(size)
+    Array.new(size) { Array.new(size, 0) }
   end
 end
