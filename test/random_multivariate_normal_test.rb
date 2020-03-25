@@ -15,8 +15,9 @@ class RandomMultivariateNormalTest < Minitest::Test
   def test_that_it_raises_argument_error_if_cov_is_not_symmetric
     dim = 3
     mean = Vector.zero(dim)
-    cov  = Matrix.I(dim)
-    cov[0,1] = 1
+    cov  = Matrix.I(dim).to_a
+    cov[0][1] = 1
+    cov = Matrix[*cov]
 
     assert_raises(ArgumentError) do
       ::RandomMultivariateNormal.new.rand(mean, cov)
